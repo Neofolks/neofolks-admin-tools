@@ -36,7 +36,7 @@ function App() {
     <div className="App">
       <form onSubmit={handleSubmit}>
         <input type="text" placeholder='Name' ref={nameRef}/>
-        <input type="text" placeholder="Email" ref={emailRef} />
+        <input type="email" placeholder="Email" ref={emailRef} />
         <input type="submit" value="submit" />
       </form>
       {/* <button onClick={getAll}>get all</button> */}
