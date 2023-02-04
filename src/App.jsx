@@ -35,8 +35,8 @@ function App() {
   return (
     <div className="App">
       <form onSubmit={handleSubmit}>
-        <input type="text" placeholder='Name' ref={nameRef}/>
-        <input type="email" placeholder="Email" ref={emailRef} />
+        <input type="text" placeholder='Name' ref={nameRef} required/>
+        <input type="email" placeholder="Email" ref={emailRef} required/>
         <input type="submit" value="submit" />
       </form>
       {/* <button onClick={getAll}>get all</button> */}
