@@ -1,45 +1,30 @@
 import { useRef, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import "./App.css";
-// action="https://listmonk-production-ef6b.up.railway.app/subscription/form"
+import TeamCard from "./TeamCard";
 
 function App() {
-  const emailRef = useRef();
-  const nameRef = useRef();
-
-  async function handleSubmit(event) {
-    event.preventDefault();
-    const response = await fetch(
-      "https://neofolks-server.up.railway.app/participants/",
-      {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({"name": nameRef.current.value, "email": emailRef.current.value})
-        // body: {"name": "new name", "email": "workpatil10@gmail.com"}
-
-      }
-    );
-    console.log(response)
-    console.log(nameRef.current.value)
-    console.log(emailRef.current.value)
-  }
+  const [teams, setTeams] = useState([])
+  const URL = "https://neofolks-server.up.railway.app/teams/"
 
   async function getAll(){
-    const response = await fetch("https://neofolks-server.up.railway.app/participants", {mode: 'cors', method: "GET"})
-    const participants = await response.json()
-    console.log(participants)
+    const pw = prompt("Enter Password")
+    const response = await fetch(URL, {mode: 'cors', method: "GET",
+    headers: new Headers({'Authorization': `Basic ` + window.btoa(`test:${pw}`)})
+  })
+    const fetchedTeams = await response.json()
+    setTeams(await fetchedTeams)
+    console.log(teams)
   }
 
   return (
-    <div className="App">
-      <form onSubmit={handleSubmit}>
-        <input type="text" placeholder='Name' ref={nameRef} required/>
-        <input type="email" placeholder="Email" ref={emailRef} required/>
-        <input type="submit" value="submit" />
-      </form>
-      {/* <button onClick={getAll}>get all</button> */}
+    <div className="App bg-black w-screen h-screen text-white flex flex-col items-center overflow-auto py-2">
+      <button onClick={getAll} className="p-4 border-2 border-white rounded-lg">Get all teams</button>
+      <div className="flex flex-col gap-4 w-full justify-center items-center">
+        {teams.map(team => {
+          return <TeamCard team={team}/>
+        })}
+      </div>
     </div>
   );
 }
